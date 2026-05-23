@@ -1,0 +1,26 @@
+# Secrets — never bake into the image
+.env
+
+# Virtual environment — rebuilt inside the image from requirements.txt
+.venv
+
+# Python bytecode
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+
+# Test artifacts
+.pytest_cache
+tests/
+
+# Local database (persisted via Docker volume, not baked in)
+data/
+*.db
+
+# Git
+.git
+.gitignore
+
+# Docs / misc
+*.md

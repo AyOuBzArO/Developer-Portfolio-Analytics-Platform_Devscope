@@ -1,0 +1,64 @@
+services:
+
+  # ── FastAPI backend ───────────────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: devscope-backend:latest
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - GITHUB_TOKEN=${GITHUB_TOKEN:-}
+      - CACHE_TTL_HOURS=${CACHE_TTL_HOURS:-6}
+    volumes:
+      # Analysis cache DB — persisted across restarts
+      - backend_data:/app/data
+    networks:
+      - devscope-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+  # ── Next.js frontend ─────────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # NEXT_PUBLIC_* vars are baked into the JS bundle at build time.
+        # For local Docker: localhost:8000 works because the backend port
+        # is mapped to the host. Override with your public domain in prod.
+        - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:8000}
+    image: devscope-frontend:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3000}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - GITHUB_ID=${GITHUB_ID:-}
+      - GITHUB_SECRET=${GITHUB_SECRET:-}
+      # Auth SQLite DB lives in the persistent volume
+      - DATABASE_URL=file:/app/data/devscope-auth.db
+    volumes:
+      # Auth DB — persisted across restarts
+      - frontend_data:/app/data
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - devscope-net
+    restart: unless-stopped
+
+networks:
+  devscope-net:
+    driver: bridge
+
+volumes:
+  backend_data:   # analysis cache (SQLite)
+  frontend_data:  # auth / user data (Prisma SQLite)
