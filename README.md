@@ -50,15 +50,8 @@ No account needed to analyze any profile. Results in under 15 seconds.
 
 ## Demo
 
-<!--
-  To embed the video: open any GitHub issue in this repo, drag and drop Devscope.mp4
-  into the comment box, wait for the upload to complete, copy the generated URL, and
-  replace the placeholder below.
--->
+https://github.com/user-attachments/assets/d6123cc1-7681-43e9-86dd-a75911493210
 
-https://github.com/user-attachments/assets/replace-this-with-your-uploaded-video-url
-
----
 
 ## Features
 
