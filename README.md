@@ -53,7 +53,7 @@ No account needed to analyze any profile. Results in under 15 seconds.
 
 ## Demo
 
-https://github.com/user-attachments/assets/d6123cc1-7681-43e9-86dd-a75911493210
+[https://github.com/user-attachments/assets/d6123cc1-7681-43e9-86dd-a75911493210](https://github.com/user-attachments/assets/b432778d-c180-4d35-963d-5f42c7bc728d)
 
 
 ## Features
