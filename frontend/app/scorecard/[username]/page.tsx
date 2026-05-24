@@ -40,16 +40,24 @@ function getGrade(score: number) {
  * the total character count so the PDF scorecard stays on one page.
  */
 function truncateAiContent(raw: string): string {
-  const text = raw.replace(/\r\n/g, '\n').trim()
+  // Normalise: strip ** wrapping around ## headings (e.g. **## Strengths**)
+  const text = raw
+    .replace(/\r\n/g, '\n')
+    .replace(/\*\*##\s*/g, '## ')   // **## Foo** → ## Foo**
+    .replace(/\*\*/g, '')            // strip remaining **
+    .trim()
+
   // Split on section headings
   const sectionRegex = /(?=^## )/m
   const sections = text.split(sectionRegex)
-
-  // Keep Forces + Faiblesses/Weaknesses (first 2 sections that have ## heading)
   const headingSections = sections.filter(s => s.startsWith('## '))
-  const kept = headingSections.slice(0, 2).join('\n\n')
 
-  // Hard cap at 600 chars to avoid overflow, break at last space
+  // Use first 2 sections if found, otherwise fall back to raw text
+  const kept = headingSections.length > 0
+    ? headingSections.slice(0, 2).join('\n\n')
+    : text
+
+  // Hard cap at 620 chars, break at last space
   if (kept.length <= 620) return kept
   const cut = kept.slice(0, 620)
   const lastSpace = cut.lastIndexOf(' ')
