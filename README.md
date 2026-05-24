@@ -7,9 +7,6 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript_5-2b7489?style=flat-square&logo=typescript&logoColor=white)
 ![Python](https://img.shields.io/badge/Python_3.12-3572A5?style=flat-square&logo=python&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)
-[![Live Demo](https://img.shields.io/badge/Live_Demo-developer--portfolio--analytics--platf.vercel.app-6366f1?style=flat-square&logo=vercel&logoColor=white)](https://developer-portfolio-analytics-platf.vercel.app)
-
-**[→ Live Demo](https://developer-portfolio-analytics-platf.vercel.app)**
 
 ---
 
